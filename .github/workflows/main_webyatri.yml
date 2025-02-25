@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Install dependencies, install serve, and build app
+      - name: Install serve, dependencies and build app
         run: |
           npm install -g serve
           npm install
@@ -54,9 +54,6 @@ jobs:
         with:
           name: react-app-build
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -70,6 +67,5 @@ jobs:
         with:
           app-name: 'webyatri'
           slot-name: 'Production'
-          package: ./build
-          # The startup command uses npx to run "serve" so that the app serves the static build folder.
+          package: release.zip
           startup-file: 'npx serve -s build'
